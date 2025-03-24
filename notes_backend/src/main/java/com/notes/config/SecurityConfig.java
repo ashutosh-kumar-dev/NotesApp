@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth-> auth
                         .requestMatchers("/notes/**").authenticated()
-                                .requestMatchers("auth/signup", "auth/login").permitAll()
+                                .requestMatchers("auth/signup", "auth/login", "auth/validate-token").permitAll()
                         )
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -4,6 +4,9 @@ import com.notes.jwt.JWTUtil;
 import com.notes.entity.UserAccountsEntity;
 import com.notes.repository.UserAccountsRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,5 +43,19 @@ public class AuthController {
 
         return "User already Exist, use different username";
 
+    }
+    @GetMapping("/validate-token")
+    public ResponseEntity<?> validateJwt(@RequestHeader("Authorization") String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Missing or invalid Authorization header"));
+        }
+
+        String jwt = authHeader.substring(7);
+        try {
+            boolean isValid = jwtUtil.validateToken(jwt);
+            return ResponseEntity.ok(Map.of("valid", isValid));
+        } catch (io.jsonwebtoken.JwtException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid or expired token"));
+        }
     }
 }

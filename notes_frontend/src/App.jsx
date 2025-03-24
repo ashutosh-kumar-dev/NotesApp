@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import './App.css'
 
-import Login from './Login/Login.jsx';
+
 import { Routes, Route } from 'react-router-dom';
+import Login from './Auth/Login.jsx';
+import Notes from './Pages/Notes.jsx';
+import PrivateRoute from './Auth/PrivateRoute.jsx';
 
 function App() {
   
@@ -11,7 +14,7 @@ function App() {
     <>
     <Routes>
       <Route path='/login' element={<Login/>}/>
-      <Route path='/notes' element={<Notes/>}/>
+      <Route path='/notes' element={<PrivateRoute element={<Notes/>}/> }/>
       
     </Routes>
     </>

@@ -1,9 +1,12 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleUsernameInput = (e) => {
         setUsername(e);
@@ -13,7 +16,27 @@ const Login = () => {
         setPassword(e);
     }
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
+
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, {
+                auth: {
+                    username: username,
+                    password: password
+                }
+            });
+
+            console.log("Response: ", res.data);
+            
+            localStorage.setItem("JWT", res.data.Jwt);
+
+            navigate("/notes"); 
+
+        } catch (e) {
+            console.log("Error is: ", e);
+            alert("Login failed! Please check your credentials.");
+        }
+
         
     }
 
@@ -32,8 +55,6 @@ const Login = () => {
             passwordTag.type = "password";
             toggleButton.textContent = "show";
         }
-
-
 
     }
 
