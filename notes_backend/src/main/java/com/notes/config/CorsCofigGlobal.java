@@ -1,4 +1,4 @@
-package comloginr.login;
+package com.notes.config;
 
 
 import org.springframework.context.annotation.Bean;
@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class GlobalCorsCofig {
+public class CorsCofigGlobal {
 
     @Bean
     public WebMvcConfigurer webMvcConfigurer(){
